@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Efficient Driving Route Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css" />
+    <style>
+        /* Fullscreen map */
+        #map { height: 100vh; margin: 0; }
+    </style>
+</head>
+<body>
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Link Leaflet JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([39.7392, -104.9903], 10); // Center map on Denver, CO
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Define waypoints with their updated order, address, and coordinates
+        const locations = [
+            { order: 1, address: "519 Rugged Rock Rd, Loveland, CO 80537", coords: [40.404, -105.084] },
+            { order: 2, address: "427 Goose Hollow Rd, Berthoud, CO 80513", coords: [40.308, -105.070] },
+            { order: 3, address: "15146 Singletree Dr, Mead, CO 80542", coords: [40.245, -104.988] },
+            { order: 4, address: "Lookout Mountain, Golden, CO 80401", coords: [39.737, -105.253] },
+            { order: 5, address: "Mount Vernon, Golden, CO 80401", coords: [39.723, -105.253] },
+            { order: 6, address: "S Kittredge Park Rd, Evergreen, CO 80439", coords: [39.629, -105.356] }, <!-- Updated order -->
+            { order: 7, address: "12743 S Wamblee Valley Rd, Conifer, CO 80433", coords: [39.485, -105.352] },
+            { order: 8, address: "Rainbow Creek Rd, Sedalia, CO", coords: [39.428, -104.960] },
+            { order: 9, address: "1870 E Macom Dr, Sedalia, CO 80135", coords: [39.423, -104.974] },
+            { order: 10, address: "7422 Piute Drive, Sedalia, CO 80135", coords: [39.419, -104.964] },
+            { order: 11, address: "5000 S Perry Park Rd, Sedalia, CO 80135", coords: [39.399, -104.936] },
+            { order: 12, address: "2342 Kelty Court, Franktown, CO 80116", coords: [39.393, -104.744] },
+            { order: 13, address: "96 Bell Mountain Pkwy, Castle Rock, CO 80104", coords: [39.384, -104.826] },
+            { order: 14, address: "N Lake Gulch Rd, Castle Rock, CO 80104", coords: [39.388, -104.845] },
+            { order: 15, address: "1660 Prominence Ct, Elizabeth, CO 80107", coords: [39.363, -104.588] },
+            { order: 16, address: "2190 Helen Court, Parker, CO 80138", coords: [39.501, -104.719] }
+        ];
+
+        // Add markers and popups for each location
+        locations.forEach(location => {
+            L.marker(location.coords).addTo(map)
+                .bindPopup(`<b>Stop #${location.order}</b><br>${location.address}`);
+        });
+
+        // Draw a polyline connecting all waypoints
+        const routeCoordinates = locations.map(location => location.coords);
+        L.polyline(routeCoordinates, { color: 'blue', weight: 4 }).addTo(map);
+    </script>
+</body>
+</html>
