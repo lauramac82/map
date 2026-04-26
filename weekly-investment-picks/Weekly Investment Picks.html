@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Weekly Investment Picks · Instagram Graphic</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<!-- Brandon Grotesque is Adobe Fonts (paid). Public proxy: Montserrat is the closest free swap. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --wm-navy: #333E48;
+    --wm-yellow: #E0B03C;
+    --wm-cream: #F5F2ED;
+    --wm-light: #E8E5E2;
+  }
+  html, body { margin: 0; padding: 0; background: #f0eee9; }
+  body {
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1f262d;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Brandon Grotesque substitute via Montserrat — closest free geometric sans. */
+  /* All `font-family: Brandon Grotesque, ...` falls through to Montserrat. */
+</style>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Data -->
+<script src="data.js"></script>
+
+<!-- Starter components + designs -->
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="direction-a.jsx"></script>
+<script type="text/babel" src="direction-b.jsx"></script>
+<script type="text/babel" src="direction-c.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  // Tweakable data — all tweaks call setTweak(key, value) which persists via host
+  const [data, setData] = useTweaks(window.WEEKLY_DATA);
+
+  // Listen for the tweak panel toggle from host
+  return (
+    <>
+      <DesignCanvas>
+        <DCSection id="weekly" title="Weekly Investment Picks · IG 1080×1080" subtitle="Three directions for Laura's NoCo shortlist — pick one or remix">
+          <DCArtboard id="dir-a" label="A · Editorial Typographic" width={1080} height={1080}>
+            <DirectionA d={data}/>
+          </DCArtboard>
+          <DCArtboard id="dir-b" label="B · Data-Forward Cards" width={1080} height={1080}>
+            <DirectionB d={data}/>
+          </DCArtboard>
+          <DCArtboard id="dir-c" label="C · NoCo Map" width={1080} height={1080}>
+            <DirectionC d={data}/>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+
+      <WeeklyTweaks data={data} setData={setData}/>
+    </>
+  );
+}
+
+function WeeklyTweaks({ data, setData }) {
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Header">
+        <TweakText label="Week label" value={data.weekLabel}
+                   onChange={v => setData('weekLabel', v)}/>
+        <TweakText label="Headline" value={data.headline}
+                   onChange={v => setData('headline', v)}/>
+      </TweakSection>
+
+      <TweakSection label="Pick 01">
+        <TweakText label="Angle" value={data.p1_angle} onChange={v => setData('p1_angle', v)}/>
+        <TweakText label="Address" value={data.p1_address} onChange={v => setData('p1_address', v)}/>
+        <TweakText label="City" value={data.p1_city} onChange={v => setData('p1_city', v)}/>
+        <TweakText label="Type" value={data.p1_type} onChange={v => setData('p1_type', v)}/>
+        <TweakText label="Metric value" value={data.p1_metric_value} onChange={v => setData('p1_metric_value', v)}/>
+        <TweakText label="Metric label" value={data.p1_metric_label} onChange={v => setData('p1_metric_label', v)}/>
+      </TweakSection>
+
+      <TweakSection label="Pick 02">
+        <TweakText label="Angle" value={data.p2_angle} onChange={v => setData('p2_angle', v)}/>
+        <TweakText label="Address" value={data.p2_address} onChange={v => setData('p2_address', v)}/>
+        <TweakText label="City" value={data.p2_city} onChange={v => setData('p2_city', v)}/>
+        <TweakText label="Type" value={data.p2_type} onChange={v => setData('p2_type', v)}/>
+        <TweakText label="Metric value" value={data.p2_metric_value} onChange={v => setData('p2_metric_value', v)}/>
+        <TweakText label="Metric label" value={data.p2_metric_label} onChange={v => setData('p2_metric_label', v)}/>
+      </TweakSection>
+
+      <TweakSection label="Pick 03">
+        <TweakText label="Angle" value={data.p3_angle} onChange={v => setData('p3_angle', v)}/>
+        <TweakText label="Address" value={data.p3_address} onChange={v => setData('p3_address', v)}/>
+        <TweakText label="City" value={data.p3_city} onChange={v => setData('p3_city', v)}/>
+        <TweakText label="Type" value={data.p3_type} onChange={v => setData('p3_type', v)}/>
+        <TweakText label="Metric value" value={data.p3_metric_value} onChange={v => setData('p3_metric_value', v)}/>
+        <TweakText label="Metric label" value={data.p3_metric_label} onChange={v => setData('p3_metric_label', v)}/>
+      </TweakSection>
+
+      <TweakSection label="Agent">
+        <TweakText label="Name" value={data.agentName} onChange={v => setData('agentName', v)}/>
+        <TweakText label="Handle" value={data.agentHandle} onChange={v => setData('agentHandle', v)}/>
+        <TweakText label="Phone" value={data.agentPhone} onChange={v => setData('agentPhone', v)}/>
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
